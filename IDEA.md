@@ -10,5 +10,9 @@ suya. Acá cada uno deja su poema sobre la misma página.
 **Origen:** a Nico se le ocurrió en un evento de escritores en La Quiaca, después de la charla
 de Rolando Paciente (2026-10).
 
-## Decisiones
-_(pendiente)_
+## Decisiones (2026-10-17)
+- Web para el celu, sin login. Sitio estático en GitHub Pages: https://nscherzer.github.io/apacheta/
+- Libros de dominio público en español (Project Gutenberg), página al azar con botón "Otra página".
+- Tachar palabras con un toque (o deslizando). Sin dibujo a mano alzada por ahora.
+- Guardar = bajar imagen, copiar texto o compartir link (el poema vive en el link).
+- El muro con los poemas de otros queda para la v2.
