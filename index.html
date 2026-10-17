@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Apacheta</title>
+  <meta name="description" content="Poesía encontrada: tachá una página de un libro hasta que quede tu poema.">
+  <meta name="theme-color" content="#efe8da">
+  <meta property="og:title" content="Apacheta">
+  <meta property="og:description" content="Tachá una página de un libro hasta que quede tu poema.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><ellipse cx='32' cy='52' rx='24' ry='8' fill='%23b4532a'/><ellipse cx='32' cy='38' rx='17' ry='7' fill='%231c1a17'/><ellipse cx='32' cy='25' rx='11' ry='6' fill='%23b4532a'/><ellipse cx='32' cy='14' rx='6' ry='4' fill='%231c1a17'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1 class="logo">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><ellipse cx="32" cy="52" rx="24" ry="8" class="s1"/><ellipse cx="32" cy="38" rx="17" ry="7" class="s2"/><ellipse cx="32" cy="25" rx="11" ry="6" class="s1"/><ellipse cx="32" cy="14" rx="6" ry="4" class="s2"/></svg>
+      apacheta
+    </h1>
+    <button class="icon-btn" id="helpBtn" aria-label="Cómo se juega">?</button>
+  </header>
+
+  <main class="stage">
+    <article class="page" id="page">
+      <div class="page-text" id="pageText" aria-live="polite"></div>
+      <footer class="page-source" id="pageSource"></footer>
+    </article>
+  </main>
+
+  <nav class="toolbar" id="toolbar">
+    <button class="tool" id="newBtn"><span class="ti">↻</span><span>Otra página</span></button>
+    <button class="tool" id="undoBtn"><span class="ti">↶</span><span>Deshacer</span></button>
+    <button class="tool" id="allBtn"><span class="ti">▮</span><span id="allLabel">Tachar todo</span></button>
+    <button class="tool primary" id="doneBtn"><span class="ti">✓</span><span>Listo</span></button>
+  </nav>
+
+  <nav class="toolbar viewbar" id="viewbar" hidden>
+    <button class="tool primary wide" id="remixBtn">Hacer mi poema con esta página</button>
+    <button class="tool" id="viewNewBtn"><span class="ti">↻</span><span>Otra</span></button>
+  </nav>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <dialog class="sheet" id="helpSheet">
+    <h2>Poesía encontrada</h2>
+    <p>Te toca una página al azar de un libro de dominio público.</p>
+    <p><b>Tocá las palabras para tacharlas</b> (o deslizá el dedo para tachar varias). Lo que queda sin tachar es tu poema.</p>
+    <p>Si querés elegir al revés, tocá <b>Tachar todo</b> y destachá las palabras que te gustan.</p>
+    <p>¿No te gusta la página? <b>Otra página</b>.</p>
+    <p class="muted">Una apacheta es el montículo de piedras de la Puna donde cada viajero deja la suya. Acá cada uno deja su poema sobre la misma página.</p>
+    <button class="btn primary" id="helpClose">Empezar</button>
+  </dialog>
+
+  <dialog class="sheet result" id="resultSheet">
+    <h2>Tu poema</h2>
+    <img class="preview" id="preview" alt="Imagen del poema">
+    <pre class="poem" id="poemText"></pre>
+    <div class="actions">
+      <button class="btn primary" id="shareBtn">Compartir</button>
+      <button class="btn" id="downloadBtn">Bajar imagen</button>
+      <button class="btn" id="copyBtn">Copiar texto</button>
+      <button class="btn" id="linkBtn">Copiar link</button>
+    </div>
+    <button class="btn ghost" id="backBtn">Seguir tachando</button>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
