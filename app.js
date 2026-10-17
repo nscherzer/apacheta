@@ -375,6 +375,11 @@ async function copy(t) {
   }
 }
 
+// ---------- sin zoom ----------
+// iOS ignora user-scalable=no: hay que frenar el gesto de pellizcar a mano
+["gesturestart", "gesturechange"].forEach((ev) => document.addEventListener(ev, (e) => e.preventDefault()));
+document.addEventListener("touchmove", (e) => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
+
 // ---------- arranque ----------
 window.addEventListener("resize", () => { clearTimeout(fitText.t); fitText.t = setTimeout(fitText, 150); });
 
