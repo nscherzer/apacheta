@@ -11,7 +11,7 @@
   --toolbar-h: 76px;
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; touch-action: manipulation; } /* sin zoom con doble toque */
 html, body { margin: 0; height: 100%; touch-action: pan-x pan-y; } /* sin zoom con dos dedos ni doble toque */
 body {
   background: var(--bg);

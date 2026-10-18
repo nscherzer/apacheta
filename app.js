@@ -377,6 +377,18 @@ async function copy(t) {
 // iOS ignora user-scalable=no: hay que frenar el gesto de pellizcar a mano
 ["gesturestart", "gesturechange"].forEach((ev) => document.addEventListener(ev, (e) => e.preventDefault()));
 document.addEventListener("touchmove", (e) => { if (e.touches.length > 1) e.preventDefault(); }, { passive: false });
+// y tampoco hace caso siempre a touch-action: un segundo toque rápido no tiene que hacer zoom
+let lastTouchEnd = 0;
+document.addEventListener("touchend", (e) => {
+  const now = Date.now();
+  if (now - lastTouchEnd < 350) {
+    e.preventDefault();
+    const btn = e.target.closest && e.target.closest("button");
+    if (btn && !btn.disabled) btn.click(); // el preventDefault se come el click: Deshacer dos veces rápido tiene que andar
+  }
+  lastTouchEnd = now;
+}, { passive: false });
+document.addEventListener("dblclick", (e) => e.preventDefault());
 
 // ---------- arranque ----------
 window.addEventListener("resize", () => { clearTimeout(fitText.t); fitText.t = setTimeout(fitText, 150); });
