@@ -16,3 +16,8 @@ de Rolando Paciente (2026-10).
 - Tachar palabras con un toque (o deslizando). Sin dibujo a mano alzada por ahora.
 - Guardar = bajar imagen, copiar texto o compartir link (el poema vive en el link).
 - El muro con los poemas de otros queda para la v2.
+
+## Zentangle (2026-10-18)
+- Al tocar Listo, la imagen ya no tapa con barras negras: lo tachado se llena con un dibujo estilo
+  zentangle (celdas con patrones a tinta) y lo que queda va en cajitas, como las páginas que interviene
+  Rolando Paciente. "Otro dibujo" genera otra variante; con la misma página y tachado sale igual.

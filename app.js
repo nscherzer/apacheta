@@ -21,6 +21,7 @@ const state = {
   viewing: false,
   confirmNew: false,
   imageBlob: null,
+  drawSeed: 0,        // "Otro dibujo" lo cambia
 };
 
 const store = {
@@ -258,7 +259,7 @@ async function renderImage() {
   const rects = state.words.map((w) => rel(w.getBoundingClientRect()));
   const textBottom = Math.max(...rects.map((r) => r.y + r.h));
   const footerH = 120;
-  const H = Math.round(textBottom + 50 + footerH);
+  const H = Math.round(textBottom + 60 + footerH);
   const c = document.createElement("canvas");
   c.width = W; c.height = H;
   const ctx = c.getContext("2d");
@@ -273,33 +274,23 @@ async function renderImage() {
   ctx.textBaseline = "middle";
   ctx.fillStyle = color("--ink");
 
-  // tiras de palabras tachadas seguidas en el mismo renglón = una sola barra
-  const runs = [];
-  rects.forEach((r, i) => {
-    if (!state.struck.has(i)) {
-      ctx.fillText(state.words[i].textContent, r.x, r.y + r.h / 2);
-      return;
-    }
-    const last = runs[runs.length - 1];
-    if (last && last.end === i - 1 && Math.abs(last.y - r.y) < 2) {
-      last.x2 = r.x + r.w; last.end = i;
-    } else {
-      runs.push({ x1: r.x, x2: r.x + r.w, y: r.y, h: r.h, end: i });
-    }
+  // lo tachado queda apenas visible debajo del dibujo, como la letra impresa bajo la tinta
+  ctx.globalAlpha = 0.28;
+  rects.forEach((r, i) => { if (state.struck.has(i)) ctx.fillText(state.words[i].textContent, r.x, r.y + r.h / 2); });
+  ctx.globalAlpha = 1;
+
+  const runs = drawZentangle(ctx, {
+    rects,
+    kept: rects.map((_, i) => !state.struck.has(i)),
+    u: fontSize,
+    seed: `${state.book.id}-${state.pageNo}-${encodeStruck(state.struck, state.words.length)}-${state.drawSeed}`,
+    ink: color("--ink"),
+    paper: color("--paper"),
+    limits: { x1: 24, x2: W - 24, y1: 24, y2: H - footerH - 24 },
   });
-  // semilla fija por barra para que la imagen salga igual cada vez
-  const jitter = (i, k) => (((Math.sin(i * 12.9898 + k * 78.233) * 43758.5453) % 1) - 0.5) * 0.08 * fontSize;
-  runs.forEach((b, i) => {
-    const top = b.y + b.h * 0.2, bot = b.y + b.h * 0.88;
-    const l = b.x1 - 0.08 * fontSize, r = b.x2 + 0.08 * fontSize;
-    ctx.beginPath();
-    ctx.moveTo(l, top + jitter(i, 1));
-    ctx.lineTo(r, top + jitter(i, 2));
-    ctx.lineTo(r, bot + jitter(i, 3));
-    ctx.lineTo(l, bot + jitter(i, 4));
-    ctx.closePath();
-    ctx.fill();
-  });
+  ctx.font = `${fontSize}px "EB Garamond", Georgia, serif`;
+  ctx.textBaseline = "middle";
+  runs.forEach((b) => b.words.forEach((i) => ctx.fillText(state.words[i].textContent, rects[i].x, rects[i].y + rects[i].h / 2)));
 
   // pie: fuente + marca
   const fy = H - footerH / 2;
@@ -323,10 +314,17 @@ $("doneBtn").onclick = async () => {
   if (!text) { toast("Tachaste todo: dejá alguna palabra"); return; }
   els.poem.textContent = text;
   els.result.showModal();
+  state.drawSeed = 0;
+  await refreshImage();
+};
+
+async function refreshImage() {
   els.preview.removeAttribute("src");
   state.imageBlob = await renderImage();
   els.preview.src = URL.createObjectURL(state.imageBlob);
-};
+}
+
+$("redrawBtn").onclick = () => { state.drawSeed++; refreshImage(); };
 
 $("backBtn").onclick = () => els.result.close();
 
