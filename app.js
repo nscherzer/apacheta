@@ -327,6 +327,7 @@ async function refreshImage() {
 $("redrawBtn").onclick = () => { state.drawSeed++; refreshImage(); };
 
 $("backBtn").onclick = () => els.result.close();
+$("closeResult").onclick = () => els.result.close();
 
 $("copyBtn").onclick = async () => {
   await copy(`${poemText()}\n\n— ${credit()}`);

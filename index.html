@@ -56,17 +56,22 @@
   </dialog>
 
   <dialog class="sheet result" id="resultSheet">
-    <h2>Tu poema</h2>
-    <img class="preview" id="preview" alt="Imagen del poema">
-    <button class="btn ghost redraw" id="redrawBtn">↻ Otro dibujo</button>
-    <pre class="poem" id="poemText"></pre>
-    <div class="actions">
+    <header class="result-head">
+      <h2>Tu poema</h2>
+      <button class="icon-btn" id="closeResult" aria-label="Seguir tachando">✕</button>
+    </header>
+    <div class="result-body">
+      <img class="preview" id="preview" alt="Imagen del poema">
+      <button class="btn ghost redraw" id="redrawBtn">↻ Otro dibujo</button>
+      <pre class="poem" id="poemText"></pre>
+    </div>
+    <footer class="actions">
       <button class="btn primary" id="shareBtn">Compartir</button>
       <button class="btn" id="downloadBtn">Bajar imagen</button>
       <button class="btn" id="copyBtn">Copiar texto</button>
       <button class="btn" id="linkBtn">Copiar link</button>
-    </div>
-    <button class="btn ghost" id="backBtn">Seguir tachando</button>
+      <button class="btn ghost" id="backBtn">Seguir tachando</button>
+    </footer>
   </dialog>
 
   <script src="zentangle.js"></script>
