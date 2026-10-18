@@ -140,7 +140,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .result-head h2 { margin: 0; }
 .result-body {
-  flex: 1; min-height: 0; overflow-y: auto;
+  flex: 1 1 auto; min-height: 0; /* con flex: 1 (base 0%) Safari la aplasta a altura 0 */ overflow-y: auto;
   padding: 0 20px 8px;
   overscroll-behavior: contain;
 }
